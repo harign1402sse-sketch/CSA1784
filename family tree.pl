@@ -1,23 +1,21 @@
-% Facts: parent relationships
-parent(john, mary).
-parent(john, david).
-parent(susan, mary).
-parent(susan, david).
-
-parent(mary, anna).
-parent(mary, tom).
-
-parent(david, peter).
-
-% Gender facts
+% Facts
 male(john).
 male(david).
-male(tom).
-male(peter).
+male(mike).
 
-female(susan).
 female(mary).
-female(anna).
+female(linda).
+female(susan).
+
+% Parent Relationships
+parent(john, david).
+parent(mary, david).
+
+parent(john, linda).
+parent(mary, linda).
+
+parent(david, mike).
+parent(susan, mike).
 
 % Rules
 father(X, Y) :-
@@ -28,30 +26,18 @@ mother(X, Y) :-
     parent(X, Y),
     female(X).
 
-child(X, Y) :-
-    parent(Y, X).
-
 grandparent(X, Y) :-
     parent(X, Z),
     parent(Z, Y).
 
-grandfather(X, Y) :-
-    grandparent(X, Y),
-    male(X).
-
-grandmother(X, Y) :-
-    grandparent(X, Y),
-    female(X).
-
-sibling(X, Y) :-
+brother(X, Y) :-
     parent(Z, X),
     parent(Z, Y),
+    male(X),
     X \= Y.
 
-brother(X, Y) :-
-    sibling(X, Y),
-    male(X).
-
 sister(X, Y) :-
-    sibling(X, Y),
-    female(X).
+    parent(Z, X),
+    parent(Z, Y),
+    female(X),
+    X \= Y.
